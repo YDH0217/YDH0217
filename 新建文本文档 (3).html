@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日打卡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background: #f7f9fc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 28px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        /* 打卡按钮 */
+        #checkBtn {
+            padding: 18px 50px;
+            font-size: 20px;
+            background: #42b983;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #checkBtn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* 视频区域 */
+        .video-box {
+            margin-top: 30px;
+            display: none;
+        }
+
+        video {
+            width: 320px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .tip {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">📅 每日打卡</div>
+
+    <button id="checkBtn">👉 点击今日打卡</button>
+    <div class="tip" id="tip"></div>
+
+    <div class="video-box" id="videoBox">
+        <!-- 你可以把下面 src 换成你自己的小视频 -->
+        <video id="successVideo" controls autoplay muted loop>
+            <source src="https://www.w3school.com.cn/i/movie.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        const today = new Date().toISOString().split('T')[0];
+        const checkBtn = document.getElementById('checkBtn');
+        const videoBox = document.getElementById('videoBox');
+        const tip = document.getElementById('tip');
+
+        // 读取本地记录
+        let signedDay = localStorage.getItem('signedDay');
+
+        // 如果今天已经打过卡
+        if (signedDay === today) {
+            checkBtn.disabled = true;
+            checkBtn.innerText = "✅ 今日已打卡";
+            tip.innerText = "明天再来吧～";
+        }
+
+        // 点击打卡
+        checkBtn.onclick = function () {
+            // 保存打卡日期
+            localStorage.setItem('signedDay', today);
+
+            // 按钮变已打卡
+            checkBtn.disabled = true;
+            checkBtn.innerText = "✅ 打卡成功！";
+            
+            // 显示视频并播放
+            videoBox.style.display = "block";
+            tip.innerText = "很棒！继续坚持 ✨";
+        };
+    </script>
+</body>
+</html>
